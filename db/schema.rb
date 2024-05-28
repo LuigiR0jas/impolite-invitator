@@ -10,11 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_28_183328) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_28_203751) do
   create_table "letter_creators", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "recipient_name"
+    t.string "event_name"
+    t.datetime "date_and_time"
+    t.string "location"
+    t.string "recipient_likes"
   end
 
   create_table "letters", force: :cascade do |t|

@@ -1,0 +1,2 @@
+class LetterCreator < ApplicationRecord
+end

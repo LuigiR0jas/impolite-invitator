@@ -29,9 +29,11 @@
   </div>
   <div class="flex flex-col">
     <h2 class="mb-4 text-2xl">Letter Preview</h2>
-    <div class="flex flex-col max-w-xl p-6 border border-gray-300 border-solid rounded-xl">
-      <div class="whitespace-pre-line">
-        <%= @letter&.body.presence || "Here you will preview your letter" %>
+    <div class="flex flex-col max-w-xl max-w p-6 border border-gray-300 border-solid min-w-[576px] rounded-xl">
+        <%= turbo_stream_from(@letter_creator) %>
+        <p id="<%= dom_id(@letter_creator) %>" class="whitespace-pre-line">
+          <%= @letter&.body.presence || "Here you will preview your letter" %>
+        </p>
       </div>
     </div>
   </div>

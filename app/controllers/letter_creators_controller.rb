@@ -1,24 +1,23 @@
 class LetterCreatorsController < ApplicationController
-  before_action :create_letter_creator, only: [:new]
+  before_action :set_letter_creator, only: %i[edit update]
 
   def new
+    @letter_creator = LetterCreator.create!
     redirect_to edit_letter_creator_path(@letter_creator.id)
   end
 
   def edit
-    @letter_creator = LetterCreator.find(params[:id])
     @letter = @letter_creator.letters.last
   end
 
   def update
-    message_creator = MessageCreator.new(params: letter_params)
+    @letter = Letter.new(letter_creator: @letter_creator)
+    message_creator = MessageCreator.new(params: letter_params, model: @letter, target: @letter_creator)
     response = message_creator.call
-
-    @letter_creator = LetterCreator.find(params[:id])
-    @letter = Letter.new(letter_creator: @letter_creator, body: response)
 
     ActiveRecord::Base.transaction do
       @letter_creator.update!(letter_params)
+      @letter.assign_attributes(body: response)
       @letter.save!
     end
 
@@ -27,8 +26,8 @@ class LetterCreatorsController < ApplicationController
 
   private
 
-  def create_letter_creator
-    @letter_creator = LetterCreator.create!
+  def set_letter_creator
+    @letter_creator = LetterCreator.find(params[:id])
   end
 
   def letter_params
